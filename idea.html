@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내 첫번째 아이디어</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;700;900&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0a14;
+      font-family: 'Noto Sans KR', sans-serif;
+      overflow: hidden;
+    }
+
+    /* 배경 그라데이션 오브 */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: floatOrb 8s ease-in-out infinite;
+    }
+    .orb1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #1d4ed8, transparent);
+      top: -150px; left: -150px;
+      animation-delay: 0s;
+    }
+    .orb2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #0ea5e9, transparent);
+      bottom: -120px; right: -120px;
+      animation-delay: 3s;
+    }
+    .orb3 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, #38bdf8, transparent);
+      top: 50%; left: 60%;
+      animation-delay: 5s;
+    }
+
+    @keyframes floatOrb {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50%       { transform: translateY(-30px) scale(1.05); }
+    }
+
+    /* 중앙 카드 */
+    .card {
+      position: relative;
+      text-align: center;
+      padding: 60px 80px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      animation: fadeInUp 0.9s ease both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #60a5fa;
+      margin-bottom: 24px;
+      background: rgba(96,165,250,0.12);
+      padding: 6px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(96,165,250,0.35);
+    }
+
+    h1 {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #bfdbfe 0%, #3b82f6 40%, #0ea5e9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+      background-size: 200% auto;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .underline-bar {
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #1d4ed8, #38bdf8);
+      border-radius: 4px;
+      margin: 28px auto 0;
+      animation: expandBar 1.2s ease 0.4s both;
+    }
+
+    @keyframes expandBar {
+      from { width: 0; opacity: 0; }
+      to   { width: 80px; opacity: 1; }
+    }
+
+    /* 반짝이는 별 효과 */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: white;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+    .sparkle:nth-child(1) { top: 18px; left: 30px; animation-delay: 0s; }
+    .sparkle:nth-child(2) { top: 25px; right: 40px; animation-delay: 0.7s; }
+    .sparkle:nth-child(3) { bottom: 20px; left: 50px; animation-delay: 1.3s; }
+    .sparkle:nth-child(4) { bottom: 30px; right: 25px; animation-delay: 0.4s; }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50%       { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-orb orb1"></div>
+  <div class="bg-orb orb2"></div>
+  <div class="bg-orb orb3"></div>
+
+  <div class="card">
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+
+    <div class="label">✦ Idea No. 1</div>
+    <h1>내 첫번째 아이디어</h1>
+    <div class="underline-bar"></div>
+  </div>
+
+</body>
+</html>
