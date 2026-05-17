@@ -17,11 +17,145 @@
     body {
       min-height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
       background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
       font-family: 'Noto Sans KR', sans-serif;
-      overflow: hidden;
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-header {
+      background: #2563eb; /* 파란색 배경 */
+      color: white;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+      z-index: 10;
+    }
+
+    .app-header h1.logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: 1px;
+      color: white;
+      text-shadow: none;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 28px; /* 적당한 간격 */
+    }
+
+    .nav-item {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav-item:hover {
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .app-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+      z-index: 5;
+      gap: 100px; /* 섹션 간 간격 */
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 40px;
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+    }
+
+    .features-section, .reviews-section {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .reviews-grid {
+      display: flex;
+      gap: 32px;
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .review-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 32px;
+      width: 360px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .review-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 3px solid white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .review-content h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+
+    .review-content p {
+      font-size: 0.95rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .app-footer {
+      background: #e2e8f0; /* 회색 배경 */
+      color: #475569;
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-top: 1px solid #cbd5e1;
+      z-index: 10;
     }
 
     /* 배경 그라데이션 오브 */
@@ -111,7 +245,7 @@
       border: 1px solid rgba(59, 130, 246, 0.2);
     }
 
-    h1 {
+    #sentence {
       font-size: 40px;
       font-weight: 900;
       line-height: 1.2;
@@ -255,16 +389,58 @@
   <div class="bg-orb orb2"></div>
   <div class="bg-orb orb3"></div>
 
-  <div class="card">
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
+  <div class="app-container">
+    <header class="app-header">
+      <h1 class="logo">나의 첫 서비스</h1>
+      <nav class="nav-menu">
+        <a href="#about" class="nav-item">소개</a>
+        <a href="#features" class="nav-item">기능</a>
+        <a href="#contact" class="nav-item">문의</a>
+      </nav>
+    </header>
 
-    <div class="label">✦ Idea No. 1</div>
-    <h1 id="sentence">오늘도 힘내세요!</h1>
-    <div class="underline-bar"></div>
-    <button id="next-btn" class="next-btn">다음 문장 보기</button>
+    <main class="app-body">
+      <!-- 핵심 기능 소개 섹션 -->
+      <section class="features-section" id="features">
+        <h2 class="section-title">핵심 기능 소개</h2>
+        <div class="card">
+          <div class="sparkle"></div>
+          <div class="sparkle"></div>
+          <div class="sparkle"></div>
+          <div class="sparkle"></div>
+
+          <div class="label">✦ Idea No. 1</div>
+          <h1 id="sentence">오늘도 힘내세요!</h1>
+          <div class="underline-bar"></div>
+          <button id="next-btn" class="next-btn">다음 문장 보기</button>
+        </div>
+      </section>
+
+      <!-- 사용자 후기 섹션 -->
+      <section class="reviews-section" id="reviews">
+        <h2 class="section-title">사용자 후기</h2>
+        <div class="reviews-grid">
+          <div class="review-card">
+            <img src="assets/user1.png" alt="사용자 1" class="user-avatar" />
+            <div class="review-content">
+              <h4>김민준</h4>
+              <p>"매일 바뀌는 응원 문구와 부드러운 색상 전환 덕분에 접속할 때마다 긍정적인 에너지를 받고 있어요. 디자인도 정말 깔끔합니다!"</p>
+            </div>
+          </div>
+          <div class="review-card">
+            <img src="assets/user2.png" alt="사용자 2" class="user-avatar" />
+            <div class="review-content">
+              <h4>이지현</h4>
+              <p>"단순하지만 강력한 힘을 가진 서비스라고 생각해요. 문장에 맞춰 버튼 색상이 변하는 애니메이션이 아주 마음에 들어요."</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>2026 MY SERVICE</p>
+    </footer>
   </div>
 
   <script>
