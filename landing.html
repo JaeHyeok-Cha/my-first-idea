@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>여행비서 — 자유여행 자동 스케줄러</title>
+  <meta name="description" content="AI가 당신만의 완벽한 자유여행 일정을 자동으로 만들어 드립니다. 여행비서와 함께 꿈의 여행을 계획하세요." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-icon">✈</span>
+        <span class="logo-text">여행비서</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#features">기능</a></li>
+        <li><a href="#destinations">인기 여행지</a></li>
+        <li><a href="#how-it-works">이용방법</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn-outline" id="loginBtn">로그인</button>
+        <button class="btn-primary" id="startBtn">무료로 시작하기</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+      <div class="particles" id="particles"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>AI 기반 여행 스케줄러 #1</span>
+      </div>
+      <h1 class="hero-title">
+        AI가 설계하는<br/>
+        <span class="gradient-text">나만의 완벽한</span><br/>
+        자유여행
+      </h1>
+      <p class="hero-desc">
+        목적지, 기간, 취향만 입력하면<br/>
+        여행비서가 최적의 여행 일정을 자동으로 만들어 드립니다.
+      </p>
+
+      <!-- Search Box -->
+      <div class="search-card">
+        <div class="search-row">
+          <div class="search-field">
+            <span class="search-icon">📍</span>
+            <div class="field-content">
+              <label>여행지</label>
+              <input type="text" id="destination" placeholder="어디로 떠나고 싶으신가요?" />
+            </div>
+          </div>
+          <div class="divider-v"></div>
+          <div class="search-field">
+            <span class="search-icon">📅</span>
+            <div class="field-content">
+              <label>출발일</label>
+              <input type="date" id="startDate" />
+            </div>
+          </div>
+          <div class="divider-v"></div>
+          <div class="search-field">
+            <span class="search-icon">🗓️</span>
+            <div class="field-content">
+              <label>기간</label>
+              <select id="duration">
+                <option value="">여행 기간 선택</option>
+                <option value="2">1박 2일</option>
+                <option value="3">2박 3일</option>
+                <option value="5">4박 5일</option>
+                <option value="7">6박 7일</option>
+                <option value="10">9박 10일</option>
+                <option value="14">2주</option>
+              </select>
+            </div>
+          </div>
+          <button class="search-btn" id="searchBtn">
+            <span>일정 생성</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </div>
+
+        <div class="tag-row">
+          <span class="tag-label">인기 여행지:</span>
+          <button class="tag" onclick="setDestination('도쿄')">🇯🇵 도쿄</button>
+          <button class="tag" onclick="setDestination('파리')">🇫🇷 파리</button>
+          <button class="tag" onclick="setDestination('발리')">🇮🇩 발리</button>
+          <button class="tag" onclick="setDestination('뉴욕')">🇺🇸 뉴욕</button>
+          <button class="tag" onclick="setDestination('방콕')">🇹🇭 방콕</button>
+          <button class="tag" onclick="setDestination('로마')">🇮🇹 로마</button>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">850K+</span>
+          <span class="stat-label">생성된 일정</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">120+</span>
+          <span class="stat-label">지원 국가</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">4.9★</span>
+          <span class="stat-label">평균 만족도</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Cards -->
+    <div class="floating-card card-1">
+      <div class="fc-icon">🗼</div>
+      <div class="fc-info">
+        <span class="fc-title">도쿄 5박 6일</span>
+        <span class="fc-sub">17개 명소 포함</span>
+      </div>
+      <div class="fc-badge">AI 추천</div>
+    </div>
+
+    <div class="floating-card card-2">
+      <div class="fc-icon">🛎️</div>
+      <div class="fc-info">
+        <span class="fc-title">호텔 자동 매칭</span>
+        <span class="fc-sub">예산에 맞는 최적 숙소</span>
+      </div>
+    </div>
+
+    <div class="floating-card card-3">
+      <div class="fc-icon">⚡</div>
+      <div class="fc-info">
+        <span class="fc-title">30초 만에 완성</span>
+        <span class="fc-sub">AI가 즉시 일정 생성</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge">핵심 기능</span>
+        <h2 class="section-title">여행의 모든 것을<br/>AI가 알아서</h2>
+        <p class="section-desc">복잡한 여행 계획, 이제 WanderAI에게 맡기세요</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card fc-large">
+          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+            <span class="feature-icon">🤖</span>
+          </div>
+          <h3>AI 맞춤 일정 생성</h3>
+          <p>취향, 예산, 동행자 수를 분석해 세상에 하나뿐인 나만의 여행 일정을 자동으로 생성합니다.</p>
+          <div class="feature-preview">
+            <div class="schedule-preview">
+              <div class="sp-day">
+                <span class="sp-day-label">Day 1</span>
+                <div class="sp-items">
+                  <div class="sp-item">☀️ 09:00 — 하네다 공항 도착</div>
+                  <div class="sp-item">🍜 12:00 — 신주쿠 라멘 투어</div>
+                  <div class="sp-item">🌸 15:00 — 요요기 공원 산책</div>
+                  <div class="sp-item">🌃 19:00 — 시부야 스카이 전망대</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+            <span class="feature-icon">🗺️</span>
+          </div>
+          <h3>동선 최적화</h3>
+          <p>이동 시간을 최소화하는 최적 루트를 계산해 더 많은 곳을 효율적으로 여행할 수 있도록 도와드립니다.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+            <span class="feature-icon">🏨</span>
+          </div>
+          <h3>숙소 자동 추천</h3>
+          <p>위치, 예산, 후기를 종합 분석하여 일정에 맞는 최적의 숙소를 자동으로 추천합니다.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+            <span class="feature-icon">💰</span>
+          </div>
+          <h3>예산 자동 관리</h3>
+          <p>전체 여행 예산을 입력하면 항공, 숙소, 식비, 관광지 입장료까지 최적 배분해 드립니다.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #fa709a, #fee140);">
+            <span class="feature-icon">🍽️</span>
+          </div>
+          <h3>맛집 큐레이션</h3>
+          <p>현지인이 추천하는 맛집과 카페를 여행 일정에 자연스럽게 녹여드립니다.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">
+            <span class="feature-icon">📱</span>
+          </div>
+          <h3>오프라인 지원</h3>
+          <p>인터넷이 없는 해외에서도 일정을 확인할 수 있도록 오프라인 모드를 지원합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Destinations Section -->
+  <section class="destinations" id="destinations">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge">인기 여행지</span>
+        <h2 class="section-title">지금 가장 핫한<br/>여행지 TOP 6</h2>
+      </div>
+
+      <div class="dest-grid">
+        <div class="dest-card dest-large" onclick="setDestination('도쿄')">
+          <div class="dest-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+            <div class="dest-emoji">🗼</div>
+          </div>
+          <div class="dest-info">
+            <h3>도쿄</h3>
+            <span>일본 · 도시 여행</span>
+            <div class="dest-tags">
+              <span class="dest-tag">문화</span>
+              <span class="dest-tag">음식</span>
+              <span class="dest-tag">쇼핑</span>
+            </div>
+          </div>
+          <div class="dest-overlay">일정 자동 생성 →</div>
+        </div>
+
+        <div class="dest-card" onclick="setDestination('발리')">
+          <div class="dest-bg" style="background: linear-gradient(135deg, #134e5e, #71b280);">
+            <div class="dest-emoji">🌴</div>
+          </div>
+          <div class="dest-info">
+            <h3>발리</h3>
+            <span>인도네시아 · 휴양</span>
+          </div>
+          <div class="dest-overlay">일정 자동 생성 →</div>
+        </div>
+
+        <div class="dest-card" onclick="setDestination('파리')">
+          <div class="dest-bg" style="background: linear-gradient(135deg, #373b44, #4286f4);">
+            <div class="dest-emoji">🗺️</div>
+          </div>
+          <div class="dest-info">
+            <h3>파리</h3>
+            <span>프랑스 · 유럽 여행</span>
+          </div>
+          <div class="dest-overlay">일정 자동 생성 →</div>
+        </div>
+
+        <div class="dest-card" onclick="setDestination('뉴욕')">
+          <div class="dest-bg" style="background: linear-gradient(135deg, #141e30, #243b55);">
+            <div class="dest-emoji">🗽</div>
+          </div>
+          <div class="dest-info">
+            <h3>뉴욕</h3>
+            <span>미국 · 도시 여행</span>
+          </div>
+          <div class="dest-overlay">일정 자동 생성 →</div>
+        </div>
+
+        <div class="dest-card" onclick="setDestination('방콕')">
+          <div class="dest-bg" style="background: linear-gradient(135deg, #f7971e, #ffd200);">
+            <div class="dest-emoji">🛕</div>
+          </div>
+          <div class="dest-info">
+            <h3>방콕</h3>
+            <span>태국 · 문화 여행</span>
+          </div>
+          <div class="dest-overlay">일정 자동 생성 →</div>
+        </div>
+
+        <div class="dest-card" onclick="setDestination('로마')">
+          <div class="dest-bg" style="background: linear-gradient(135deg, #c94b4b, #4b134f);">
+            <div class="dest-emoji">🏛️</div>
+          </div>
+          <div class="dest-info">
+            <h3>로마</h3>
+            <span>이탈리아 · 역사 여행</span>
+          </div>
+          <div class="dest-overlay">일정 자동 생성 →</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge">이용방법</span>
+        <h2 class="section-title">단 3단계로<br/>완성되는 여행 일정</h2>
+      </div>
+
+      <div class="steps-container">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-icon">✍️</div>
+          <h3>정보 입력</h3>
+          <p>여행지, 기간, 예산, 인원수, 여행 스타일을 간단히 입력하세요.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <div class="step-icon">🤖</div>
+          <h3>AI 분석</h3>
+          <p>WanderAI가 수백만 개의 여행 데이터를 분석하여 최적의 일정을 구성합니다.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-icon">🎒</div>
+          <h3>여행 출발!</h3>
+          <p>완성된 일정을 확인하고, 원하는 대로 수정 후 바로 여행을 시작하세요!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-bg">
+      <div class="cta-orb cta-orb-1"></div>
+      <div class="cta-orb cta-orb-2"></div>
+    </div>
+    <div class="cta-content">
+      <h2>지금 바로 여행을<br/>계획해보세요</h2>
+      <p>30초 만에 AI가 완성하는 나만의 여행 일정<br/>첫 번째 일정은 무료입니다!</p>
+      <button class="cta-btn" id="ctaBtn">
+        <span>무료로 시작하기</span>
+        <span class="cta-arrow">✈</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="logo-icon">✈</span>
+          <span class="logo-text">여행비서</span>
+        </div>
+        <p>AI가 설계하는 나만의 완벽한 자유여행</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>서비스</h4>
+          <a href="#">일정 생성</a>
+          <a href="#">숙소 추천</a>
+          <a href="#">맛집 큐레이션</a>
+          <a href="#">예산 관리</a>
+        </div>
+        <div class="footer-col">
+          <h4>지원</h4>
+          <a href="#">자주 묻는 질문</a>
+          <a href="#">고객센터</a>
+          <a href="#">이용약관</a>
+          <a href="#">개인정보처리방침</a>
+        </div>
+        <div class="footer-col">
+          <h4>팔로우</h4>
+          <a href="#">Instagram</a>
+          <a href="#">YouTube</a>
+          <a href="#">Blog</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 여행비서. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-icon">🚀</div>
+      <h3>곧 출시됩니다!</h3>
+      <p>여행비서는 현재 개발 중입니다.<br/>출시 알림을 받아보세요!</p>
+      <input type="email" placeholder="이메일 주소 입력" class="modal-input" id="emailInput" />
+      <button class="modal-btn" id="modalSubmit">알림 신청하기</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
