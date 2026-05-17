@@ -1,412 +1,499 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>여행비서 — 자유여행 자동 스케줄러</title>
-  <meta name="description" content="AI가 당신만의 완벽한 자유여행 일정을 자동으로 만들어 드립니다. 여행비서와 함께 꿈의 여행을 계획하세요." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>여행비서 - 스케줄 생성</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --gray: #64748b;
+    }
+    
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Pretendard', -apple-system, sans-serif; 
+    }
+    
+    body {
+      background: linear-gradient(135deg, #e0e7ff 0%, #f1f5f9 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text);
+    }
+    
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      background: white;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    /* 상단 이미지 / 헤더 영역 */
+    .header-hero {
+      height: 40vh;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.2)), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+      display: flex;
+      flex-direction: column;
+      padding: 32px 24px;
+      color: white;
+      position: relative;
+    }
+    
+    .app-logo-wrap {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: auto; /* 로고는 위로, 텍스트는 아래로 자연스럽게 밀어냄 */
+      background: white;
+      padding: 16px 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    }
+    
+    .app-logo {
+      height: 72px; /* 열기구 크기 유지 */
+      width: auto;
+      object-fit: contain;
+    }
+    
+    .app-logo-text {
+      font-size: 52px; /* 폰트를 기존의 약 4~5배 수준으로 거대하게 확대 */
+      font-weight: 900;
+      color: #60a5fa; /* 연한 파란색으로 변경 */
+      font-style: italic; /* 열기구 진행 방향에 맞춰 기울임 적용 */
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+    
+    .header-hero h1 { 
+      font-size: 32px; 
+      font-weight: 700; 
+      margin-bottom: 8px; 
+      line-height: 1.3; 
+    }
+    
+    .header-hero p { 
+      font-size: 16px; 
+      opacity: 0.9; 
+    }
+
+    /* 폼 입력 영역 컨테이너 */
+    .form-container {
+      flex: 1;
+      background: white;
+      border-radius: 28px 28px 0 0;
+      margin-top: -28px;
+      padding: 36px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+    }
+    
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .input-group label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--gray);
+    }
+    
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .input-wrapper span {
+      position: absolute;
+      left: 18px;
+      font-size: 22px;
+    }
+    
+    .input-wrapper input {
+      width: 100%;
+      padding: 18px 18px 18px 54px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.2s;
+      background: #f8fafc;
+      color: var(--text);
+    }
+    
+    .input-wrapper input:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
+    }
+    
+    .input-wrapper input::placeholder {
+      color: #94a3b8;
+    }
+    
+    .map-toggle-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .city-checkbox-container {
+      display: none;
+      margin-top: -12px;
+      margin-bottom: 8px;
+    }
+    
+    .city-checkbox-container p {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+    
+    .city-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .city-badge-label {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #f1f5f9;
+      border: 1.5px solid transparent;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray);
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    
+    .city-badge-input {
+      display: none;
+    }
+    
+    .city-badge-input:checked + .city-badge-label {
+      background: #eff6ff;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    
+    .custom-city-input {
+      width: 100%;
+      padding: 14px 16px;
+      margin-top: 12px;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 14px;
+      font-size: 14px;
+      outline: none;
+      background: #f8fafc;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    
+    .custom-city-input:focus {
+      border-color: var(--primary);
+      border-style: solid;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
+    }
+    
+    .date-row {
+      display: flex;
+      gap: 16px;
+    }
+    
+    .date-row .input-group {
+      flex: 1;
+    }
+    
+    /* input type date에서 기본 아이콘 숨기기 (모바일에 깔끔하게 보이도록) */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      opacity: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      margin-top: auto;
+      margin-bottom: 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 20px;
+      border-radius: 18px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(59,130,246,0.4);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    
+    .submit-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 4px 10px rgba(59,130,246,0.2);
+    }
+    
+    .submit-btn:disabled {
+      background: #94a3b8;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
-
-  <!-- Navigation -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">
-        <span class="logo-icon">✈</span>
-        <span class="logo-text">여행비서</span>
+  <div class="app-container">
+    <div class="header-hero">
+      <div class="app-logo-wrap">
+        <img src="assets/logo.png" alt="여행비서 열기구" class="app-logo" />
+        <span class="app-logo-text">여행비서</span>
       </div>
-      <ul class="nav-links">
-        <li><a href="#features">기능</a></li>
-        <li><a href="#destinations">인기 여행지</a></li>
-        <li><a href="#how-it-works">이용방법</a></li>
-      </ul>
-      <div class="nav-actions">
-        <button class="btn-outline" id="loginBtn">로그인</button>
-        <button class="btn-primary" id="startBtn">무료로 시작하기</button>
-      </div>
+      <h1>어디로<br/>떠나시나요?</h1>
+      <p>여행비서가 완벽한 일정을 짜드릴게요</p>
     </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="hero" id="hero">
-    <div class="hero-bg">
-      <div class="gradient-orb orb-1"></div>
-      <div class="gradient-orb orb-2"></div>
-      <div class="gradient-orb orb-3"></div>
-      <div class="particles" id="particles"></div>
-    </div>
-
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        <span>AI 기반 여행 스케줄러 #1</span>
-      </div>
-      <h1 class="hero-title">
-        AI가 설계하는<br/>
-        <span class="gradient-text">나만의 완벽한</span><br/>
-        자유여행
-      </h1>
-      <p class="hero-desc">
-        목적지, 기간, 취향만 입력하면<br/>
-        여행비서가 최적의 여행 일정을 자동으로 만들어 드립니다.
-      </p>
-
-      <!-- Search Box -->
-      <div class="search-card">
-        <div class="search-row">
-          <div class="search-field">
-            <span class="search-icon">📍</span>
-            <div class="field-content">
-              <label>여행지</label>
-              <input type="text" id="destination" placeholder="어디로 떠나고 싶으신가요?" />
-            </div>
-          </div>
-          <div class="divider-v"></div>
-          <div class="search-field">
-            <span class="search-icon">📅</span>
-            <div class="field-content">
-              <label>출발일</label>
-              <input type="date" id="startDate" />
-            </div>
-          </div>
-          <div class="divider-v"></div>
-          <div class="search-field">
-            <span class="search-icon">🗓️</span>
-            <div class="field-content">
-              <label>기간</label>
-              <select id="duration">
-                <option value="">여행 기간 선택</option>
-                <option value="2">1박 2일</option>
-                <option value="3">2박 3일</option>
-                <option value="5">4박 5일</option>
-                <option value="7">6박 7일</option>
-                <option value="10">9박 10일</option>
-                <option value="14">2주</option>
-              </select>
-            </div>
-          </div>
-          <button class="search-btn" id="searchBtn">
-            <span>일정 생성</span>
-            <span class="btn-arrow">→</span>
-          </button>
+    
+    <div class="form-container">
+      <div class="input-group">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label>여행지</label>
+          <button id="map-toggle-btn" class="map-toggle-btn" type="button">🗺️ 지도에서 선택</button>
         </div>
-
-        <div class="tag-row">
-          <span class="tag-label">인기 여행지:</span>
-          <button class="tag" onclick="setDestination('도쿄')">🇯🇵 도쿄</button>
-          <button class="tag" onclick="setDestination('파리')">🇫🇷 파리</button>
-          <button class="tag" onclick="setDestination('발리')">🇮🇩 발리</button>
-          <button class="tag" onclick="setDestination('뉴욕')">🇺🇸 뉴욕</button>
-          <button class="tag" onclick="setDestination('방콕')">🇹🇭 방콕</button>
-          <button class="tag" onclick="setDestination('로마')">🇮🇹 로마</button>
+        <div class="input-wrapper">
+          <span>📍</span>
+          <input type="text" placeholder="나라 또는 도시 (예: 일본 도쿄)" id="destination" autocomplete="off" />
         </div>
       </div>
-
-      <div class="hero-stats">
-        <div class="stat-item">
-          <span class="stat-number">850K+</span>
-          <span class="stat-label">생성된 일정</span>
+      
+      <!-- 구글맵 영역 (초기 숨김) -->
+      <div id="map-container" style="display: none; height: 220px; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; margin-top: -12px;">
+        <div id="map" style="width: 100%; height: 100%;"></div>
+      </div>
+      
+      <!-- 주요 도시 선택 체크박스 영역 (국가 인식 시 표시) -->
+      <div id="city-checkbox-container" class="city-checkbox-container">
+        <p>🌟 인플루언서 추천 주요 도시 <span style="font-weight: 400; font-size: 12px; color: #94a3b8;">(다중 선택)</span></p>
+        <div id="city-badges" class="city-badges"></div>
+        <input type="text" id="custom-city-input" class="custom-city-input" placeholder="원하는 도시가 없다면 직접 입력해주세요 (쉼표로 구분)" autocomplete="off" />
+      </div>
+      
+      <div class="date-row">
+        <div class="input-group">
+          <label>출발 날짜</label>
+          <div class="input-wrapper">
+            <span>🛫</span>
+            <input type="date" id="start-date" />
+          </div>
         </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <span class="stat-number">120+</span>
-          <span class="stat-label">지원 국가</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <span class="stat-number">4.9★</span>
-          <span class="stat-label">평균 만족도</span>
+        <div class="input-group">
+          <label>귀국 날짜</label>
+          <div class="input-wrapper">
+            <span>🛬</span>
+            <input type="date" id="end-date" />
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Floating Cards -->
-    <div class="floating-card card-1">
-      <div class="fc-icon">🗼</div>
-      <div class="fc-info">
-        <span class="fc-title">도쿄 5박 6일</span>
-        <span class="fc-sub">17개 명소 포함</span>
-      </div>
-      <div class="fc-badge">AI 추천</div>
-    </div>
-
-    <div class="floating-card card-2">
-      <div class="fc-icon">🛎️</div>
-      <div class="fc-info">
-        <span class="fc-title">호텔 자동 매칭</span>
-        <span class="fc-sub">예산에 맞는 최적 숙소</span>
-      </div>
-    </div>
-
-    <div class="floating-card card-3">
-      <div class="fc-icon">⚡</div>
-      <div class="fc-info">
-        <span class="fc-title">30초 만에 완성</span>
-        <span class="fc-sub">AI가 즉시 일정 생성</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="features" id="features">
-    <div class="section-container">
-      <div class="section-header">
-        <span class="section-badge">핵심 기능</span>
-        <h2 class="section-title">여행의 모든 것을<br/>AI가 알아서</h2>
-        <p class="section-desc">복잡한 여행 계획, 이제 WanderAI에게 맡기세요</p>
-      </div>
-
-      <div class="features-grid">
-        <div class="feature-card fc-large">
-          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #667eea, #764ba2);">
-            <span class="feature-icon">🤖</span>
-          </div>
-          <h3>AI 맞춤 일정 생성</h3>
-          <p>취향, 예산, 동행자 수를 분석해 세상에 하나뿐인 나만의 여행 일정을 자동으로 생성합니다.</p>
-          <div class="feature-preview">
-            <div class="schedule-preview">
-              <div class="sp-day">
-                <span class="sp-day-label">Day 1</span>
-                <div class="sp-items">
-                  <div class="sp-item">☀️ 09:00 — 하네다 공항 도착</div>
-                  <div class="sp-item">🍜 12:00 — 신주쿠 라멘 투어</div>
-                  <div class="sp-item">🌸 15:00 — 요요기 공원 산책</div>
-                  <div class="sp-item">🌃 19:00 — 시부야 스카이 전망대</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
-            <span class="feature-icon">🗺️</span>
-          </div>
-          <h3>동선 최적화</h3>
-          <p>이동 시간을 최소화하는 최적 루트를 계산해 더 많은 곳을 효율적으로 여행할 수 있도록 도와드립니다.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
-            <span class="feature-icon">🏨</span>
-          </div>
-          <h3>숙소 자동 추천</h3>
-          <p>위치, 예산, 후기를 종합 분석하여 일정에 맞는 최적의 숙소를 자동으로 추천합니다.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
-            <span class="feature-icon">💰</span>
-          </div>
-          <h3>예산 자동 관리</h3>
-          <p>전체 여행 예산을 입력하면 항공, 숙소, 식비, 관광지 입장료까지 최적 배분해 드립니다.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #fa709a, #fee140);">
-            <span class="feature-icon">🍽️</span>
-          </div>
-          <h3>맛집 큐레이션</h3>
-          <p>현지인이 추천하는 맛집과 카페를 여행 일정에 자연스럽게 녹여드립니다.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">
-            <span class="feature-icon">📱</span>
-          </div>
-          <h3>오프라인 지원</h3>
-          <p>인터넷이 없는 해외에서도 일정을 확인할 수 있도록 오프라인 모드를 지원합니다.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Destinations Section -->
-  <section class="destinations" id="destinations">
-    <div class="section-container">
-      <div class="section-header">
-        <span class="section-badge">인기 여행지</span>
-        <h2 class="section-title">지금 가장 핫한<br/>여행지 TOP 6</h2>
-      </div>
-
-      <div class="dest-grid">
-        <div class="dest-card dest-large" onclick="setDestination('도쿄')">
-          <div class="dest-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
-            <div class="dest-emoji">🗼</div>
-          </div>
-          <div class="dest-info">
-            <h3>도쿄</h3>
-            <span>일본 · 도시 여행</span>
-            <div class="dest-tags">
-              <span class="dest-tag">문화</span>
-              <span class="dest-tag">음식</span>
-              <span class="dest-tag">쇼핑</span>
-            </div>
-          </div>
-          <div class="dest-overlay">일정 자동 생성 →</div>
-        </div>
-
-        <div class="dest-card" onclick="setDestination('발리')">
-          <div class="dest-bg" style="background: linear-gradient(135deg, #134e5e, #71b280);">
-            <div class="dest-emoji">🌴</div>
-          </div>
-          <div class="dest-info">
-            <h3>발리</h3>
-            <span>인도네시아 · 휴양</span>
-          </div>
-          <div class="dest-overlay">일정 자동 생성 →</div>
-        </div>
-
-        <div class="dest-card" onclick="setDestination('파리')">
-          <div class="dest-bg" style="background: linear-gradient(135deg, #373b44, #4286f4);">
-            <div class="dest-emoji">🗺️</div>
-          </div>
-          <div class="dest-info">
-            <h3>파리</h3>
-            <span>프랑스 · 유럽 여행</span>
-          </div>
-          <div class="dest-overlay">일정 자동 생성 →</div>
-        </div>
-
-        <div class="dest-card" onclick="setDestination('뉴욕')">
-          <div class="dest-bg" style="background: linear-gradient(135deg, #141e30, #243b55);">
-            <div class="dest-emoji">🗽</div>
-          </div>
-          <div class="dest-info">
-            <h3>뉴욕</h3>
-            <span>미국 · 도시 여행</span>
-          </div>
-          <div class="dest-overlay">일정 자동 생성 →</div>
-        </div>
-
-        <div class="dest-card" onclick="setDestination('방콕')">
-          <div class="dest-bg" style="background: linear-gradient(135deg, #f7971e, #ffd200);">
-            <div class="dest-emoji">🛕</div>
-          </div>
-          <div class="dest-info">
-            <h3>방콕</h3>
-            <span>태국 · 문화 여행</span>
-          </div>
-          <div class="dest-overlay">일정 자동 생성 →</div>
-        </div>
-
-        <div class="dest-card" onclick="setDestination('로마')">
-          <div class="dest-bg" style="background: linear-gradient(135deg, #c94b4b, #4b134f);">
-            <div class="dest-emoji">🏛️</div>
-          </div>
-          <div class="dest-info">
-            <h3>로마</h3>
-            <span>이탈리아 · 역사 여행</span>
-          </div>
-          <div class="dest-overlay">일정 자동 생성 →</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How it works -->
-  <section class="how-it-works" id="how-it-works">
-    <div class="section-container">
-      <div class="section-header">
-        <span class="section-badge">이용방법</span>
-        <h2 class="section-title">단 3단계로<br/>완성되는 여행 일정</h2>
-      </div>
-
-      <div class="steps-container">
-        <div class="step-card">
-          <div class="step-number">01</div>
-          <div class="step-icon">✍️</div>
-          <h3>정보 입력</h3>
-          <p>여행지, 기간, 예산, 인원수, 여행 스타일을 간단히 입력하세요.</p>
-        </div>
-        <div class="step-arrow">→</div>
-        <div class="step-card">
-          <div class="step-number">02</div>
-          <div class="step-icon">🤖</div>
-          <h3>AI 분석</h3>
-          <p>WanderAI가 수백만 개의 여행 데이터를 분석하여 최적의 일정을 구성합니다.</p>
-        </div>
-        <div class="step-arrow">→</div>
-        <div class="step-card">
-          <div class="step-number">03</div>
-          <div class="step-icon">🎒</div>
-          <h3>여행 출발!</h3>
-          <p>완성된 일정을 확인하고, 원하는 대로 수정 후 바로 여행을 시작하세요!</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="cta-bg">
-      <div class="cta-orb cta-orb-1"></div>
-      <div class="cta-orb cta-orb-2"></div>
-    </div>
-    <div class="cta-content">
-      <h2>지금 바로 여행을<br/>계획해보세요</h2>
-      <p>30초 만에 AI가 완성하는 나만의 여행 일정<br/>첫 번째 일정은 무료입니다!</p>
-      <button class="cta-btn" id="ctaBtn">
-        <span>무료로 시작하기</span>
-        <span class="cta-arrow">✈</span>
-      </button>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-brand">
-        <div class="nav-logo">
-          <span class="logo-icon">✈</span>
-          <span class="logo-text">여행비서</span>
-        </div>
-        <p>AI가 설계하는 나만의 완벽한 자유여행</p>
-      </div>
-      <div class="footer-links">
-        <div class="footer-col">
-          <h4>서비스</h4>
-          <a href="#">일정 생성</a>
-          <a href="#">숙소 추천</a>
-          <a href="#">맛집 큐레이션</a>
-          <a href="#">예산 관리</a>
-        </div>
-        <div class="footer-col">
-          <h4>지원</h4>
-          <a href="#">자주 묻는 질문</a>
-          <a href="#">고객센터</a>
-          <a href="#">이용약관</a>
-          <a href="#">개인정보처리방침</a>
-        </div>
-        <div class="footer-col">
-          <h4>팔로우</h4>
-          <a href="#">Instagram</a>
-          <a href="#">YouTube</a>
-          <a href="#">Blog</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2026 여행비서. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <!-- Modal -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal" id="modal">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div class="modal-icon">🚀</div>
-      <h3>곧 출시됩니다!</h3>
-      <p>여행비서는 현재 개발 중입니다.<br/>출시 알림을 받아보세요!</p>
-      <input type="email" placeholder="이메일 주소 입력" class="modal-input" id="emailInput" />
-      <button class="modal-btn" id="modalSubmit">알림 신청하기</button>
+      
+      <button class="submit-btn" id="generate-btn">스케줄 생성하기 ✨</button>
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script>
+    const generateBtn = document.getElementById('generate-btn');
+    
+    // 오늘 날짜를 기본값으로 설정하는 함수
+    function setMinDate() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('start-date').min = today;
+      document.getElementById('end-date').min = today;
+    }
+    setMinDate();
+
+    // 출발 날짜가 바뀌면 귀국 날짜의 최소값을 출발 날짜로 조정
+    document.getElementById('start-date').addEventListener('change', function(e) {
+      document.getElementById('end-date').min = e.target.value;
+    });
+
+    generateBtn.addEventListener('click', () => {
+      const dest = document.getElementById('destination').value.trim();
+      const start = document.getElementById('start-date').value;
+      const end = document.getElementById('end-date').value;
+      
+      if(!dest) {
+        alert('여행지를 입력해주세요!');
+        document.getElementById('destination').focus();
+        return;
+      }
+      if(!start) {
+        alert('출발 날짜를 선택해주세요!');
+        return;
+      }
+      if(!end) {
+        alert('귀국 날짜를 선택해주세요!');
+        return;
+      }
+      if(start > end) {
+        alert('귀국 날짜는 출발 날짜보다 늦어야 합니다.');
+        return;
+      }
+      
+      // 버튼 상태 변경 (로딩 중)
+      const originalText = generateBtn.innerHTML;
+      generateBtn.innerHTML = '일정 생성 중... ⏳';
+      generateBtn.disabled = true;
+      
+      // 가짜 로딩 시뮬레이션
+      setTimeout(() => {
+        alert(`✈️ ${dest} 여행 스케줄이 성공적으로 생성되었습니다!\n(기간: ${start} ~ ${end})`);
+        generateBtn.innerHTML = originalText;
+        generateBtn.disabled = false;
+      }, 1500);
+    });
+
+    // 국가별 주요 도시 데이터
+    const countryCities = {
+      "일본": ["도쿄", "오사카", "교토", "후쿠오카", "삿포로", "오키나와"],
+      "미국": ["뉴욕", "로스앤젤레스", "샌프란시스코", "시카고", "라스베이거스", "하와이"],
+      "한국": ["서울", "부산", "제주도", "강릉", "경주", "여수"],
+      "대한민국": ["서울", "부산", "제주도", "강릉", "경주", "여수"],
+      "프랑스": ["파리", "마르세유", "리옹", "니스", "보르도"],
+      "이탈리아": ["로마", "밀라노", "피렌체", "베네치아", "나폴리"],
+      "영국": ["런던", "에든버러", "맨체스터", "버밍엄"],
+      "베트남": ["다낭", "나트랑", "하노이", "호치민", "푸꾸옥"],
+      "태국": ["방콕", "푸껫", "치앙마이", "파타야"],
+      "스페인": ["마드리드", "바르셀로나", "세비야", "그라나다"],
+      "대만": ["타이베이", "가오슝", "타이중", "타이난"]
+    };
+
+    function updateCityCheckboxes(locationName) {
+      const container = document.getElementById("city-checkbox-container");
+      const badgesDiv = document.getElementById("city-badges");
+      
+      let matchedCountry = null;
+      for (const country in countryCities) {
+        if (locationName.includes(country)) {
+          matchedCountry = country;
+          break;
+        }
+      }
+
+      if (matchedCountry) {
+        badgesDiv.innerHTML = '';
+        countryCities[matchedCountry].forEach(city => {
+          const id = `city-${city}`;
+          badgesDiv.insertAdjacentHTML('beforeend', `
+            <div>
+              <input type="checkbox" id="${id}" class="city-badge-input" value="${city}">
+              <label for="${id}" class="city-badge-label">${city}</label>
+            </div>
+          `);
+        });
+        container.style.display = 'block';
+      } else {
+        container.style.display = 'none';
+        badgesDiv.innerHTML = '';
+        document.getElementById("custom-city-input").value = ''; // 다른 곳 선택 시 초기화
+      }
+    }
+
+    // 텍스트 직접 입력 시 즉각 반응
+    document.getElementById('destination').addEventListener('input', (e) => {
+      updateCityCheckboxes(e.target.value);
+    });
+
+    // 구글 맵 API 로직
+    let map, marker, geocoder;
+
+    function initMap() {
+      const defaultLocation = { lat: 37.5665, lng: 126.9780 };
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: defaultLocation,
+        zoom: 4,
+        disableDefaultUI: true,
+        zoomControl: true,
+      });
+      geocoder = new google.maps.Geocoder();
+      marker = new google.maps.Marker({ map: map });
+
+      const input = document.getElementById("destination");
+      const autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ["(regions)"]
+      });
+
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        if (!place.geometry || !place.geometry.location) return;
+        
+        map.setCenter(place.geometry.location);
+        map.setZoom(10);
+        marker.setPosition(place.geometry.location);
+        
+        // 도시 목록 업데이트
+        updateCityCheckboxes(input.value);
+
+        const mapContainer = document.getElementById("map-container");
+        if (mapContainer.style.display === "none") {
+          mapContainer.style.display = "block";
+          document.getElementById("map-toggle-btn").innerHTML = "닫기 ✕";
+        }
+      });
+
+      map.addListener("click", (e) => {
+        marker.setPosition(e.latLng);
+        geocoder.geocode({ location: e.latLng }, (results, status) => {
+          if (status === "OK" && results[0]) {
+            input.value = results[0].formatted_address;
+            // 도시 목록 업데이트
+            updateCityCheckboxes(input.value);
+          }
+        });
+      });
+    }
+
+    // 지도 토글 버튼 동작
+    const mapToggleBtn = document.getElementById("map-toggle-btn");
+    mapToggleBtn.addEventListener("click", () => {
+      const mapContainer = document.getElementById("map-container");
+      if (mapContainer.style.display === "none") {
+        mapContainer.style.display = "block";
+        mapToggleBtn.innerHTML = "닫기 ✕";
+      } else {
+        mapContainer.style.display = "none";
+        mapToggleBtn.innerHTML = "🗺️ 지도에서 선택";
+      }
+    });
+  </script>
+  <!-- 실제 서비스 시 아래 스크립트에 key=발급받은API키 파라미터를 추가해야 워터마크 없이 정상 작동합니다. -->
+  <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
